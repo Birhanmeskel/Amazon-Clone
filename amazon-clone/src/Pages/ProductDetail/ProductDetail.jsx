@@ -3,14 +3,15 @@ import LayOut from "../../Components/LayOut/LayOut";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { productUrl } from "../../Api/endPoints";
-import ProductCard from "../../Components/product/ProductCard"
+import ProductCard from "../../Components/product/ProductCard";
+import Loader from "../../Components/Loader/Loader";
 
 const ProductDetail = () => {
   const { productId } = useParams();
-  const [product, setProduct] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [product, setProduct] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
-    setLoading(true)
+    setIsLoading(true);
     axios
       .get(`${productUrl}/products/${productId}`)
       .then((res) => {
@@ -19,17 +20,20 @@ const ProductDetail = () => {
       .catch((err) => {
         console.error(err);
       })
-      .finally(()=>{
-        setLoading(false)
+      .finally(() => {
+        setIsLoading(false);
       });
   }, [productId]);
 
-  if(loading) return <h3>Loading...</h3>
-   if (!product) return <p>product not found...</p>;
-
   return (
     <LayOut>
-      <ProductCard product={product} key={product.id} />
+      {isLoading ? (
+        <Loader />
+      ) : product ? (
+        <ProductCard product={product} />
+      ) : (
+        <p>Product not found.</p>
+      )}
     </LayOut>
   );
 };
