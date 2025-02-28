@@ -37,7 +37,11 @@ const Results = () => {
           <hr />
           <div className={classes.products_container}>
             {results?.map((product_cat) => (
-              <ProductCard key={product_cat.id} product={product_cat} />
+              <ProductCard
+                key={product_cat.id}
+                product={product_cat}
+                renderAdd
+              ={true}/>
             ))}
           </div>
         </section>

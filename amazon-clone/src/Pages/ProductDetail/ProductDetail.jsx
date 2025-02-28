@@ -30,7 +30,12 @@ const ProductDetail = () => {
       {isLoading ? (
         <Loader />
       ) : product ? (
-        <ProductCard product={product} flex={true} renderDesc={true}/>
+        <ProductCard
+          product={product}
+          flex={true}
+          renderDesc={true}
+          renderAdd
+        ={true}/>
       ) : (
         <p>Product not found.</p>
       )}
