@@ -8,6 +8,10 @@ import { Link } from "react-router-dom";
 import { DataContext } from "../DataProvider/DataProvider";
 const Header = () => {
   const [{basket}, dispatch] =useContext(DataContext)
+
+  const totalItem = basket?.reduce((amount, items)=>{
+    return items.amount + amount
+  },0)
   // console.log(basket.length);
   
   return (
@@ -67,7 +71,7 @@ const Header = () => {
             {/* cart  */}
             <Link to="/cart" className={classes.cart}>
               <BiCart size={35} />
-              <span>{basket.length}</span>
+              <span>{totalItem}</span>
             </Link>
           </div>
         </div>
