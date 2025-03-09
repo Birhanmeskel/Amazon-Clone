@@ -18,7 +18,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/payment/create", async (req, res) => {
-  const total = req.query.total; // Access total from request body instead of query
+  const total = req.query.total;
 
   if (total > 0) {
     const paymentIntent = await stripe.paymentIntents.create({
@@ -27,7 +27,7 @@ app.post("/payment/create", async (req, res) => {
     });
     console.log(paymentIntent);
     res.status(201).json({
-      client_secret: paymentIntents.client_secret,
+      client_secret: paymentIntent.client_secret,
     });
   } else {
     res.status(403).json({
