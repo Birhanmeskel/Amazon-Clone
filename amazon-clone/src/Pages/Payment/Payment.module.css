@@ -25,8 +25,7 @@
   min-width: 350px;
   /* width: 100%; */
 }
-.payment_details {
-}
+
 .payment_price {
   padding: 20px;
 }
@@ -46,4 +45,18 @@
 }
 .payment_details button:hover {
   background-color: var(--primary-shade);
+}
+.loading{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  color: rgb(25,25,25);
+}
+
+
+@media screen and (max-width: 768px) {
+  .flex{
+    flex-direction: column;
+  }
 }
