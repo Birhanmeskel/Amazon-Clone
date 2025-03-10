@@ -44,7 +44,7 @@ const Header = () => {
               <option value="">All</option>
             </select>
             <input type="text" />
-            <BsSearch size={25} />
+            <BsSearch size={38} />
           </div>
 
           {/* right side link  */}

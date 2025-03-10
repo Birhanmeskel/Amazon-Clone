@@ -8,10 +8,11 @@ import CurrencyFormat from "../../Components/currencyFormat/CurrencyFormat";
 import { axiosInstance } from "../../Api/axios";
 import { ClipLoader } from "react-spinners";
 import { db } from "../../Utility/firebase";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Type } from "../../Utility/action.type";
 
 const Payment = () => {
-  const [{ user, basket }] = useContext(DataContext);
+  const [{ user, basket }, dispatch] = useContext(DataContext);
   const [processing, setProcessing] = useState(false);
   const totalItem = basket?.reduce((amount, items) => {
     return items.amount + amount;
@@ -26,7 +27,7 @@ const Payment = () => {
   const stripe = useStripe();
   const elements = useElements();
 
-  const Navigate = useNavigate()
+  const Navigate = useNavigate();
 
   const handleChange = (e) => {
     e?.error?.message ? setCardError(e?.error?.message) : setCardError("");
@@ -63,8 +64,12 @@ const Payment = () => {
           created: paymentIntent.created,
         });
 
+      // empty the basket after confirmation
+      dispatch({ type: Type.EMPTY_BASKET });
+
       setProcessing(false);
-      Navigate("/orders", {state: "you have placed new order"});
+      // navigate to orders page
+      Navigate("/orders", { state: { msg: "you have placed new order" } });
     } catch (error) {
       console.log(error);
       setProcessing(false);
