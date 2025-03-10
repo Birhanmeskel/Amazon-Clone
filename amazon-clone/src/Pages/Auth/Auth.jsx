@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import classes from "./SignUp.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { auth } from "../../Utility/firebase";
 import {
   signInWithEmailAndPassword,
@@ -21,6 +21,7 @@ const Auth = () => {
 
   const [{ user }, dispatch] = useContext(DataContext);
   const navigate = useNavigate();
+  const navStateData = useLocation();
 
   // console.log(email, password);
 
@@ -38,7 +39,7 @@ const Auth = () => {
             user: userInfo.user,
           });
           setLoading({ ...loading, signIn: false });
-          navigate("/");
+          navigate(navStateData?.state?.redirect || "/");
         })
         .catch((err) => {
           setError(err.message);
@@ -53,7 +54,7 @@ const Auth = () => {
             user: userInfo.user,
           });
           setLoading({ ...loading, signUp: false });
-          navigate("/");
+          navigate(navStateData?.state?.redirect || "/");
         })
         .catch((err) => {
           setError(err.message);
@@ -65,7 +66,7 @@ const Auth = () => {
   return (
     <section className={classes.login}>
       {/* logo */}
-      <Link to={"/"}> 
+      <Link to={"/"}>
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Amazon_2024.svg/1200px-Amazon_2024.svg.png"
           alt=""
@@ -74,6 +75,18 @@ const Auth = () => {
       {/* form */}
       <div className={classes.login_container}>
         <h1>Sign In</h1>
+        {
+          navStateData?.state?.msg && (
+            <small   style={{
+              padding:"5px",
+              textAlign: "center",
+              color:"red",
+              fontWeight:"bold"
+            }} >
+              {navStateData?.state?.msg}
+            </small>
+          )
+        }
         <div>
           <form action="">
             <div>
